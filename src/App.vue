@@ -1,13 +1,23 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view></router-view>
+    <div class="wrapper">
+      <v-header></v-header> 
+      <v-menu></v-menu> 
+      <div class="content">
+        <router-view></router-view>
+      </div>   
+    </div>
   </div>
 </template>
 
 <script>
+import vMenu from './components/menu.vue';
+import vHeader from './components/Header.vue';
 export default {
-  name: 'app'
+  name: 'app',
+  components:{
+        vMenu,vHeader
+  }
 }
 </script>
 
@@ -16,8 +26,9 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
+
+@import "../static/css/main.css";
+@import "../static/css/theme-green/color-green.css";   
 </style>

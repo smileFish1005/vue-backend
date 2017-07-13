@@ -1,14 +1,8 @@
 <template>
-  <div class="hello">
-    <v-menu></v-menu>  
-    <div class="content">
-        <transition name="move" mode="out-in"><router-view></router-view></transition>
-    </div>
-  </div>
+    <div>{{msg}}</div>
 </template>
 
 <script>
-import vMenu from './menu.vue';
 
 export default {
   name: 'hello',
@@ -16,9 +10,6 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
-  },
-  components:{
-        vMenu
   }
 }
 </script>
