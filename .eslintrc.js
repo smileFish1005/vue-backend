@@ -10,7 +10,7 @@ module.exports = {
     browser: true,
   },
   // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
-  extends: 'eslint:recommended',//standard
+  extends: 'eslint:recommended',//eslint:recommended
   // required to lint *.vue files
   plugins: [
     'html'
@@ -22,6 +22,7 @@ module.exports = {
     // allow async-await
     'generator-star-spacing': 0,
     // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
+    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0 ,
+    'no-unused-vars':0 //变量未使用提示  警告级别
   }
 }

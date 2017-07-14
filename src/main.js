@@ -6,6 +6,7 @@ import router from './router'
 import ElementUI from 'element-ui'
 import axios from 'axios'
 import 'element-ui/lib/theme-default/index.css'
+import "babel-polyfill"
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios

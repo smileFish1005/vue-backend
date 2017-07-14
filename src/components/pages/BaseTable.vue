@@ -46,7 +46,7 @@
     export default {
         data() {
             return {
-                url: '/ms/table/list',
+                url: '../../../static/vuetable.json',
                 tableData: [],
                 cur_page: 1,
                 multipleSelection: [],
