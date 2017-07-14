@@ -7,7 +7,7 @@
             </el-breadcrumb>
         </div>
         <div class="handle-box">
-            <el-button class="handle-del mr10">批量删除</el-button>
+            <el-button class="handle-del mr10" @click="handle_delete_bat()">批量删除</el-button>
             <el-select v-model="select_cate" placeholder="筛选省份" class="handle-select mr10">
                 <el-option key="1" label="广东省" value="1"></el-option>
                 <el-option key="2" label="湖南省" value="2"></el-option>
@@ -102,6 +102,24 @@
             },
             handleSelectionChange: function(val) {
                 this.multipleSelection = val;
+            },
+            handle_delete_bat:function(){
+                let self = this ;
+                let indexs = Array.of() ;
+                if(this.multipleSelection.length==0){
+                    alert('请先选择')
+                } else{
+                    this.tableData.forEach(function(obj,index){
+                        self.multipleSelection.forEach(function(mult){
+                            if(obj.name ==mult.name){
+                                indexs.push(index);
+                            }        
+                        })        
+                    })
+                    indexs.reverse().forEach(function(v){
+                        self.tableData.splice(v,1);                 
+                    })
+                }  
             }
         }
     }
