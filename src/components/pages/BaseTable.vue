@@ -15,7 +15,7 @@
             <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
             <el-button type="primary" icon="search">搜索</el-button>
         </div>
-        <el-table :data="tableData" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
+        <el-table :data="tableData" v-loading="loading" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="date" label="日期" sortable width="150">
             </el-table-column>
@@ -51,7 +51,8 @@
                 cur_page: 1,
                 multipleSelection: [],
                 select_cate: '',
-                select_word: ''
+                select_word: '',
+                loading: true
             }
         },
         created(){
@@ -64,11 +65,12 @@
             },
             getData(){
                 let self = this;
-                //if(process.env.NODE_ENV === 'development'){
-                    //self.url = '/ms/table/list';
-               //}
+                if(process.env.NODE_ENV === 'development'){
+                    self.url = '/ms/table/list';
+                }
                 self.$axios.post(self.url, {page:self.cur_page}).then((res) => {
                     self.tableData = res.data.list;
+                    self.loading = false ;
                 })
             },
             formatter(row) {
@@ -81,7 +83,22 @@
                 this.$message('编辑第'+(index+1)+'行');
             },
             handleDelete(index) {
-                this.$message.error('删除第'+(index+1)+'行');
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消',
+                  type: 'warning'
+                }).then(() => {
+                    this.tableData.splice(index,1);
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                }).catch(() => {
+                  this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                  });          
+                });
             },
             handleSelectionChange: function(val) {
                 this.multipleSelection = val;
