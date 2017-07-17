@@ -14,12 +14,13 @@
                 :actions="actions"
                 v-on:change="changePage"
                 v-on:searching="onSearch"></datasource>
+        <server-datasource  :source="url" :columns="columns"  :actions="actions" @changePage="change"></server-datasource>
     </div>
 </template>
 
 <script>
     import axios from 'axios';
-    import Datasource from 'vue-datasource';
+    import { ServerDatasource } from 'vue-datasource'
     export default {
         data: function(){
             const self = this;
@@ -60,7 +61,7 @@
             }
         },
         components: {
-            Datasource
+            ServerDatasource
         },
         methods: {
             changePage(values) {
