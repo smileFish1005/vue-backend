@@ -25,7 +25,7 @@
             items: [
                 {
                     icon: 'el-icon-setting',
-                    index: 'readme',
+                    index: '/',
                     title: '自述'
                 },
                 {

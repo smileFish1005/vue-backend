@@ -1,23 +1,12 @@
 <template>
   <div id="app">
-    <div class="wrapper">
-      <v-header></v-header> 
-      <v-menu></v-menu> 
-      <div class="content">
-        <router-view></router-view>
-      </div>   
-    </div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import vMenu from './components/menu.vue';
-import vHeader from './components/Header.vue';
 export default {
-  name: 'app',
-  components:{
-        vMenu,vHeader
-  }
+  name: 'app'
 }
 </script>
 
