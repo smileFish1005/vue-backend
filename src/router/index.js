@@ -1,8 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
-import ReadMe from '@/components/pages/ReadMe'
-import BaseTable from '@/components/pages/BaseTable'
 
 Vue.use(Router)
 
@@ -10,18 +7,20 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: Hello
+      component: resolve => require(['@/components/Hello.vue'], resolve)
     },
     {
       path: '/readme',
-      name: 'ReadMe',
-      component: ReadMe
+      component: resolve => require(['@/components/pages/ReadMe.vue'], resolve)
     },
     {
       path: '/basetable',
-      name: 'basetable',
-      component: BaseTable
+      component:  resolve => require(['@/components/pages/BaseTable.vue'], resolve)
+    },
+    {
+      path: '/baseform',
+      name: 'baseform',
+      component:  resolve => require(['@/components/pages/BaseForm.vue'], resolve)
     }
   ]
 })

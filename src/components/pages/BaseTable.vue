@@ -107,7 +107,7 @@
                 let self = this ;
                 let indexs = Array.of() ;
                 if(this.multipleSelection.length==0){
-                    alert('请先选择')
+                    this.$message.error('请先选择一条记录哦');
                 } else{
                     this.tableData.forEach(function(obj,index){
                         self.multipleSelection.forEach(function(mult){
