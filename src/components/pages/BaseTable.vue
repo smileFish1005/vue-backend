@@ -6,6 +6,9 @@
                 <el-breadcrumb-item>基础表格</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
+        <div>
+            
+        </div>
         <div class="handle-box">
             <el-button class="handle-del mr10" @click="handle_delete_bat()">批量删除</el-button>
             <el-select v-model="select_cate" placeholder="筛选省份" class="handle-select mr10">
@@ -39,20 +42,70 @@
                     :total="1000">
             </el-pagination>
         </div>
+        <div class="template">
+            <el-dialog title="编辑" :visible.sync="dialogFormVisible">
+                <el-form ref="editData" :rules="rules" :model="editData" :inline="true">
+                    <el-form-item label="活动名称"   prop="name">
+                      <el-input v-model="editData.name"  placeholder="请填写活动名称" size="min"></el-input>
+                    </el-form-item>
+                    <el-form-item label="活动区域" prop="region">
+                      <el-select v-model="editData.region" placeholder="请选择活动区域">
+                        <el-option label="区域一" value="shanghai"></el-option>
+                        <el-option label="区域二" value="beijing"></el-option>
+                      </el-select>
+                    </el-form-item>
+                    
+                </el-form>   
+              <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="submit('editData')">确 定</el-button>
+              </div>
+            </el-dialog>   
+        </div>
     </div>
+    
 </template>
 
 <script>
     export default {
         data() {
             return {
-                url: '../../../static/vuetable.json',
+                url: (process.env.NODE_ENV === 'development'?'/ms/table/list':'../../../static/vuetable.json'),
                 tableData: [],
                 cur_page: 1,
                 multipleSelection: [],
                 select_cate: '',
                 select_word: '',
-                loading: true
+                loading: true,
+
+                selectedRow:{},
+                rules:{
+                    name: [
+                    { required: true, message: '请输入活动名称', trigger: 'blur' },
+                    { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                  ],
+                  region: [
+                    { required: true, message: '请选择活动区域', trigger: 'change' }
+                  ],
+                  type: [
+                    { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
+                  ],
+                  resource: [
+                    { required: true, message: '请选择活动资源', trigger: 'change' }
+                  ]
+                },
+
+                dialogFormVisible:false,
+                dialog:{
+                    url:(process.env.NODE_ENV === 'development'?'/ms/table/list':'../../../static/vuetable.json'),
+                    type:'add'   //请求类型  是添加还是编辑
+                },
+                editData:{
+                    name:"",
+                    region:"",
+                    type:[],
+                    resource:'0'      
+                }
             }
         },
         created(){
@@ -65,9 +118,7 @@
             },
             getData(){
                 let self = this;
-                if(process.env.NODE_ENV === 'development'){
-                    self.url = '/ms/table/list';
-                }
+
                 self.$axios.post(self.url, {page:self.cur_page}).then((res) => {
                     self.tableData = res.data.list;
                     self.loading = false ;
@@ -79,8 +130,27 @@
             filterTag(value, row) {
                 return row.tag === value;
             },
-            handleEdit(index) {
-                this.$message('编辑第'+(index+1)+'行');
+            handleAdd() {
+                this.editData={
+                    name:"",
+                    region:""   
+                } ;
+
+
+                this.dialog.url = this.url+'?type=add' ;
+                this.dialog.type = 'add';
+                this.dialogFormVisible = true;
+            },
+            handleEdit(index,row) {
+                this.editData={
+                    name:"",
+                    region:""   
+                } ;
+                this.dialog.url = this.url+'?type=edit' ;
+                this.dialog.type = 'edit';
+
+                this.dialogFormVisible = true;
+                this.selectedRow = {'index':index ,'row':row};
             },
             handleDelete(index) {
                 this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -120,6 +190,26 @@
                         self.tableData.splice(v,1);                 
                     })
                 }  
+            },
+            submit:function (formName){
+                this.$refs[formName].validate((valid) => {
+                  if (valid) {
+                    this.$axios.post(this.dialog.url, {page:this.cur_page}).then((res) => {
+                        this.$message({
+                            type: 'success',
+                            message: '保存成功!'
+                        });
+                        if(this.dialog.type=='add'){
+                            this.tableData.push({"date":"1995-12-11","name":"熊明323","address":"湖南省 怀化市 通道侗族自治县add"});     
+                        }else{
+                            this.tableData.splice(this.selectedRow.index, 1,{"date":"1995-12-11","name":"熊明323","address":"湖南省 怀化市 通道侗族自治县"});   
+                        }
+                        this.dialogFormVisible = false ;
+                    })
+                  } else {
+                    return false;
+                  }
+                });
             }
         }
     }
