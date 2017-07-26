@@ -44,21 +44,34 @@
         </div>
         <div class="template">
             <el-dialog title="编辑" :visible.sync="dialogFormVisible">
-                <el-form ref="editData" :rules="rules" :model="editData" :inline="true">
+                <el-form ref="editForm" :rules="rules" :model="editForm" :inline="true">
                     <el-form-item label="活动名称"   prop="name">
-                      <el-input v-model="editData.name"  placeholder="请填写活动名称" size="min"></el-input>
+                      <el-input v-model="editForm.name"  placeholder="请填写活动名称" size="min"></el-input>
                     </el-form-item>
                     <el-form-item label="活动区域" prop="region">
-                      <el-select v-model="editData.region" placeholder="请选择活动区域">
+                      <el-select v-model="editForm.region" placeholder="请选择活动区域">
                         <el-option label="区域一" value="shanghai"></el-option>
                         <el-option label="区域二" value="beijing"></el-option>
                       </el-select>
                     </el-form-item>
-                    
+                    <el-form-item label="活动性质" prop="type">
+                        <el-checkbox-group v-model="editForm.type">
+                          <el-checkbox label="美食/餐厅线上活动"></el-checkbox>
+                          <el-checkbox label="地推活动"></el-checkbox>
+                          <el-checkbox label="线下主题活动"></el-checkbox>
+                          <el-checkbox label="单纯品牌曝光"></el-checkbox>
+                        </el-checkbox-group>
+                      </el-form-item>
+                      <el-form-item label="特殊资源"  prop="resource">
+                        <el-radio-group v-model="editForm.resource">
+                          <el-radio label="6">线上品牌商赞助</el-radio>
+                          <el-radio label="5">线下场地免费</el-radio>
+                        </el-radio-group>
+                      </el-form-item>
                 </el-form>   
               <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="submit('editData')">确 定</el-button>
+                <el-button type="primary" @click="submit('editForm')">确 定</el-button>
               </div>
             </el-dialog>   
         </div>
@@ -77,6 +90,7 @@
                 select_cate: '',
                 select_word: '',
                 loading: true,
+                searchForm:{},
 
                 selectedRow:{},
                 rules:{
@@ -100,11 +114,11 @@
                     url:(process.env.NODE_ENV === 'development'?'/ms/table/list':'../../../static/vuetable.json'),
                     type:'add'   //请求类型  是添加还是编辑
                 },
-                editData:{
+                editForm:{
                     name:"",
                     region:"",
                     type:[],
-                    resource:'0'      
+                    resource:''      
                 }
             }
         },
@@ -131,21 +145,14 @@
                 return row.tag === value;
             },
             handleAdd() {
-                this.editData={
-                    name:"",
-                    region:""   
-                } ;
-
-
                 this.dialog.url = this.url+'?type=add' ;
                 this.dialog.type = 'add';
                 this.dialogFormVisible = true;
+
+                //this.$refs['editForm'].resetFields();
             },
             handleEdit(index,row) {
-                this.editData={
-                    name:"",
-                    region:""   
-                } ;
+                //this.$refs['editForm'].resetFields();
                 this.dialog.url = this.url+'?type=edit' ;
                 this.dialog.type = 'edit';
 
