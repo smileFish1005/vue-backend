@@ -26,6 +26,10 @@ const router = new Router({
                     component: resolve => require(['@/components/pages/BaseForm.vue'], resolve)
                 },
                 {
+                    path: '/boss',
+                    component: resolve => require(['@/components/pages/Boss.vue'], resolve)
+                },
+                {
                     path: '/vuetable',
                     component: resolve => require(['@/components/pages/VueTable.vue'], resolve)
                 }
