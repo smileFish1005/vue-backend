@@ -28,6 +28,10 @@ const router = new Router({
                 {
                     path: '/vuetable',
                     component: resolve => require(['@/components/pages/VueTable.vue'], resolve)
+                },
+                {
+                    path: '/bosstest',
+                    component: resolve => require(['@/components/pages/bosstest.vue'], resolve)
                 }
             ]
         },
