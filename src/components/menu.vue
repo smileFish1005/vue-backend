@@ -38,6 +38,10 @@
                             title: '基础表格'
                         },
                         {
+                            index: 'boss',
+                            title: 'boss实例'
+                        },
+                        {
                             index: 'vuetable',
                             title: 'Vue表格组件'
                         }
