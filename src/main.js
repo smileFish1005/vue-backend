@@ -10,7 +10,7 @@ import "babel-polyfill"
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
-
+Vue.prototype.$consoleLog = function () { console.log(...arguments) }
 Vue.use(ElementUI)
 
 /* eslint-disable no-new */
