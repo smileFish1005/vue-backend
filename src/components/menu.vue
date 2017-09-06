@@ -38,6 +38,10 @@
                             title: '基础表格'
                         },
                         {
+                            index: 'boss',
+                            title: 'boss实例'
+                        },
+                        {
                             index: 'vuetable',
                             title: 'Vue表格组件'
                         }
@@ -75,6 +79,21 @@
                     icon: 'el-icon-upload2',
                     index: 'drag',
                     title: '拖拽'
+                },
+                {
+                    icon: 'el-icon-menu',
+                    index: '2',
+                    title: 'boss',
+                    subs: [
+                        {
+                            index: 'bosstest',
+                            title: '打包售卖商品套餐'
+                        },
+                        {
+                            index: 'other',
+                            title: '其他'
+                        }
+                    ]
                 }
             ]
         }
